@@ -1,0 +1,71 @@
+[project]
+name = "video-processor"
+version = "0.0.1"
+description = "Video Processor task"
+requires-python = "==3.13.*"
+authors = [
+    { name = "Mohamad Amin Jafari" , email = "mhmdamin.jafari@gmail.com"},
+]
+dependencies = [
+    "alembic>=1.15.2",
+    "fastapi>=0.115.12",
+    "pydantic>=2.11.4",
+    "pydantic-settings>=2.9.1",
+    "sqlalchemy>=2.0.40",
+    "toml>=0.10.2",
+    "uvicorn>=0.34.2",
+]
+
+[dependency-groups]
+dev = [
+    "hatch>=1.14.1",
+    "mypy>=1.15.0",
+    "ruff>=0.11.9",
+    "rust-just>=1.40.0",
+    "types-toml>=0.10.8.20240310",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/app"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+target-version = "py313"
+line-length = 120
+fix = true
+
+[tool.ruff.lint]
+select = [
+    # https://docs.astral.sh/ruff/rules/#pyflakes-f
+    "F", # Pyflakes
+    # https://docs.astral.sh/ruff/rules/#pycodestyle-e-w
+    "E", # pycodestyle
+    "W", # Warning
+    # https://docs.astral.sh/ruff/rules/#flake8-comprehensions-c4
+    # https://docs.astral.sh/ruff/rules/#mccabe-c90
+    "C", # Complexity (mccabe+) & comprehensions
+    # https://docs.astral.sh/ruff/rules/#pyupgrade-up
+    "UP", # pyupgrade
+    # https://docs.astral.sh/ruff/rules/#isort-i
+    "I", # isort
+]
+ignore = [
+    # https://docs.astral.sh/ruff/rules/#pycodestyle-e-w
+    "E402", # module level import not at top of file
+    # https://docs.astral.sh/ruff/rules/#pyupgrade-up
+    "UP006", # use-pep585-annotation
+    "UP007", # use-pep604-annotation
+    "E741",  # Ambiguous variable name
+    # "UP035", # deprecated-assertion
+]
+mccabe = { max-complexity = 24 }
+pydocstyle = { convention = "numpy" }
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = [
+    "F401", # unused import
+    "F403", # star imports
+]
